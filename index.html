@@ -28,6 +28,49 @@
     </div>
     </div>
     
+    <!-- MODAL AGREGAR/EDITAR-->
+    <div id="formulario" class="modal">
+        <div class="form-contenido">
+        <h2>Nuevo libro</h2>
+        
+        <input
+            type="text"
+            id="titulo"
+            placeholder="Título"
+            required
+            pattern="[A-Za-zÀ-ÖØ-öø-ÿ]{2,}[A-Za-zÀ-ÖØ-öø-ÿ ]{0,}"
+            maxlength="30"
+        />
+
+        <input
+            type="text"
+            id="autor"
+            placeholder="Autor"
+            required
+            pattern="[A-Za-zÀ-ÖØ-öø-ÿ]{2,}[A-Za-zÀ-ÖØ-öø-ÿ ]{0,}"
+            maxlength="30"
+        />
+
+        <input
+            type="number"
+            id="catPags"
+            placeholder="Cantidad de páginas"
+            required
+            pattern="\d"
+            maxlength="30"
+        />
+
+        <div class="consultaLeido">
+            <label for="leido">¿Lo has leído?</label>
+         <input type="checkbox" id="leido" required> 
+        </div>
+        <div class="btnsForm">
+            <button class="guardar">Guardar</button> 
+            <button class="salir">Salir</button>
+        </div>   
+        </div>
+    </div>
+    
     <!--FOOTER-->
     <div class="footer">
         <p>

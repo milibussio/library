@@ -1,4 +1,4 @@
-// CONSTRUCTOR DE LIBRO
+////// CONSTRUCTOR DE LIBRO //////
 
 function Libro(titulo, autor, cantPags, leido){
     this.titulo = titulo
@@ -7,13 +7,13 @@ function Libro(titulo, autor, cantPags, leido){
     this.leido = leido
 }
 
-// FUNCION AGREGAR LIBRO
+////// FUNCION AGREGAR LIBRO //////
 
 function agregarLibro(){
 
 }
 
-// AGREGAR FUNCION A PROTOTIPO DE LIBRO
+////// AGREGAR FUNCION A PROTOTIPO DE LIBRO //////
 
 Libro.prototype.info = function(){
     let leidoTxt = ""     
@@ -25,7 +25,7 @@ Libro.prototype.info = function(){
     return( `${this.titulo}, escrito por ${this.autor}, tiene ${this.cantPags} páginas. ${leidoTxt}.`);
 }
 
-// OBJETOS PARA POBRAR LIBRERÍA
+////// OBJETOS PARA POBRAR LIBRERÍA //////
 
 const libro1 = new Libro("El Hobbit", "JR Tolkien", 295, false);
 const libro2 = new Libro("Mil Soles Espléndidos", "Khaled Hosseini", 384, true)
@@ -33,15 +33,15 @@ const libro3 = new Libro("La Vegetariana", "Han Kang", 240, true);
 const libro4 = new Libro("Todos Deberíamos Ser Feministas", "Chimamanda Ngozi Adichie", 55, false);
 const libro5 = new Libro("Cosas que te pasan si estás vivo", "Liniers", 220, true);
 
-// ARRAY DE LIBRERÍA
+////// ARRAY DE LIBRERÍA //////
 
 let miLibreria = [libro1, libro2, libro3, libro4, libro5];
 
-// CREO EL CONTENEDOR LAS CARDS COMO ELEMENTOS
+////// CREO EL CONTENEDOR LAS CARDS COMO ELEMENTOS ////// 
 
 let contenedor = document.querySelector(".contenedor");
 
-// CREO LAS CARDS EN EL HTML
+////// CREO LAS CARDS EN EL HTML //////
 
 function crearCard(){
 
@@ -103,7 +103,7 @@ for (libro of miLibreria){
 
 crearCard();
 
-// ACCIONES ON LICK
+////// ACCIONES ON  CLICK //////
 
 window.addEventListener("click", function(e){
     
@@ -119,16 +119,22 @@ window.addEventListener("click", function(e){
     if (elementClass.includes("del")){
         borrar(elementId);
     };
+
+    //ACTIVO BOTÓN PARA AGREGAR
+    if (elementClass.includes("add")){
+        nuevoFormulario();
+    };
+
 })
 
 window.EventTarget
 
-// FUNCION PARA BORRAR
+////// FUNCION PARA BORRAR //////
 
 function borrar(id){
 
     //CREO LAS CARDS
-    let card = document.querySelectorAll(".contenedor");
+    let card = document.querySelectorAll(".card");
 
     // PRIMERO VIENE CON ADVERTENCIA EN UN MODAL
     let modal = document.getElementById("advertencia");
@@ -139,7 +145,6 @@ function borrar(id){
     //  TRAIGO LOS BOTONES SI Y NO,
     let si = document.getElementsByClassName("si")[0];
     let no = document.getElementsByClassName("no")[0];
-    console.log(si, no);
 
     // ABRIR EL MODAL
     modal.style.display = "block";  
@@ -163,16 +168,35 @@ function borrar(id){
     // CLICKEAR SI BORRA EL CARD, SE ELIMINA EL OBJETO DEL ARRAY Y CIERRA EL MODAL
     si.onclick = function(){
         miLibreria.splice(id, 1);
-        removeAllChildNodes(card[id]); // HAY QUE ARREGLAR ESTO!!
+        card[id].remove();
         modal.style.display = "none";
     }
 }
 
+////// ABRIR MODAL AGREGAR/EDITAR //////
 
-// FUNCION PARA BORRAR LOS HIJOS
+function nuevoFormulario(){
 
-function removeAllChildNodes(parent) {
-    while (parent.firstChild) {
-        parent.removeChild(parent.firstChild);
+    // SE CREA MODAL FORMULARIO
+    let modal = document.getElementById("formulario");
+
+    //  TRAIGO LOS BOTONES SI Y NO,
+    let guardar = document.getElementsByClassName("guardar")[0];
+    let salir = document.getElementsByClassName("salir")[0];
+
+    // ABRIR EL MODAL
+    modal.style.display = "block";  
+
+    // CLIKCEAR AFUERA DEL MODAL CIERRA EL MODAL
+    window.onclick = function(event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+        }    
+
+    // SALIR CIERRA EL MODAL
+
+    salir.onclick = function() {
+        modal.style.display = "none";
     }
 }
