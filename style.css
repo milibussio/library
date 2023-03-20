@@ -198,14 +198,20 @@ input{
     font-size: 1.1rem;
     border: 0;
     border-radius: 10px;
+    border: 1px solid white;
     padding: 5px;
     outline: none;
-    background-color: darkslategrey;
-    color: white;
+    background-color: lightblue;
+    color: darkcyan;
 }
 
+input.invalido{
+    border: 1px solid red;
+}
+
+
 ::placeholder{
-    color: white;
+    color: cadetblue;
     opacity: 0.5;
 }
 
@@ -228,15 +234,22 @@ button.salir{
     height: 30px;
 }
 
+button.salir{
+    background-color:darkcyan;
+    color: white;
+}
+
 button.guardar{
     background-color: aqua;
 }
 
+button.salir:hover,
 button.guardar:hover{
     background-color: palevioletred;
     color: white;
 }
 
+button.salir:active,
 button.guardar:active{
     background-color: pink;
 }
@@ -245,10 +258,8 @@ button.guardar:active{
     display: flex;
     flex-direction: column;
     gap: 10px;
-
 }
 
-button.salir:hover,
 button.si:hover, 
 button.no:hover{
     background-color: pink;
@@ -256,7 +267,6 @@ button.no:hover{
     cursor: pointer;
 }
 
-button.salir:active,
 button.si:active, 
 button.no:active{
     background-color: palevioletred;

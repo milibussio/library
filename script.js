@@ -7,25 +7,9 @@ function Libro(titulo, autor, cantPags, leido){
     this.leido = leido
 }
 
-////// FUNCION AGREGAR LIBRO //////
-
-function agregarLibro(){
-
-}
-
-////// AGREGAR FUNCION A PROTOTIPO DE LIBRO //////
-
-Libro.prototype.info = function(){
-    let leidoTxt = ""     
-
-    if (this.leido){
-        leidoTxt = "Lo has leído"
-    } else {leidoTxt = "No lo has leído"}
-
-    return( `${this.titulo}, escrito por ${this.autor}, tiene ${this.cantPags} páginas. ${leidoTxt}.`);
-}
-
 ////// OBJETOS PARA POBRAR LIBRERÍA //////
+
+let id = 0;
 
 const libro1 = new Libro("El Hobbit", "JR Tolkien", 295, false);
 const libro2 = new Libro("Mil Soles Espléndidos", "Khaled Hosseini", 384, true)
@@ -43,11 +27,9 @@ let contenedor = document.querySelector(".contenedor");
 
 ////// CREO LAS CARDS EN EL HTML //////
 
-function crearCard(){
+function crearCards(){
 
-let id = 0;
-
-for (libro of miLibreria){
+    for (libro of miLibreria){
 
         // creo elemento card
         const card = document.createElement("div");
@@ -94,14 +76,69 @@ for (libro of miLibreria){
         acciones.appendChild(imgEdit); // append al div de acciones
         card.appendChild(acciones); // append el div de accioens a new card
 
-
         // agrego la card al contendor
         contenedor.appendChild(card);
         id++;
     }
 }
 
-crearCard();
+crearCards();
+
+// CREAR CARD NUEVA //
+
+function crearCard(){
+    // creo elemento card
+    const card = document.createElement("div");
+    card.classList.add("card"); // le agrego clase
+    card.setAttribute("id", id-1) // le agrego ID (el id es la longitud del array)
+    
+    // traigo el último elemento del array
+    let ultimoLibro = miLibreria[miLibreria.length - 1];
+
+    //creo titutlo
+    const titulo = document.createElement("h2");
+    titulo.textContent = ultimoLibro.titulo; // le agrego contenido
+    card.appendChild(titulo); //apend el titulo a la card
+        
+    //creo autor
+    const autor = document.createElement("h3");
+    autor.textContent = ultimoLibro.autor;; // le agrego contenido
+    card.appendChild(autor); //apend el autor a la card
+        
+    //creo paginas
+    const paginas = document.createElement("h3");
+    paginas.textContent = ultimoLibro.cantPags;; // le agrego contenido
+    card.appendChild(paginas); //apend paginas a la card
+        
+    // creo botón
+    const leido = document.createElement("button");
+    if (ultimoLibro.leido){
+        leido.classList.add("leido"); // le agrego clase
+        leido.textContent = "Leído"; // le agrego contenido
+    } else {
+        leido.classList.add("leido", "noLeido"); // le agrego clase
+        leido.textContent = "No leído"; // le agrego contenido    
+    }
+    card.appendChild(leido); //apend paginas a la card
+    // creo div de imagenes
+    const acciones = document.createElement("div");
+    acciones.classList.add("acciones"); // le agrego clase
+     
+    // creo las imagenes del div
+    const imgDel = document.createElement("img");
+    imgDel.classList.add("icono", "del"); // le agrego clase
+    imgDel.src = "imagenes/del.png"; // le agrego el src
+    acciones.appendChild(imgDel); // apend al div d eacciones
+    const imgEdit = document.createElement("img");
+    imgEdit.classList.add("icono", "edit"); // le agrego clase
+    imgEdit.src = "imagenes/edit.png"; // le agrego el src
+    acciones.appendChild(imgEdit); // append al div de acciones
+    card.appendChild(acciones); // append el div de accioens a new card
+    
+    // agrego la card al contendor  
+    contenedor.appendChild(card);
+    id++;
+}
 
 ////// ACCIONES ON  CLICK //////
 
@@ -125,6 +162,20 @@ window.addEventListener("click", function(e){
         nuevoFormulario();
     };
 
+    // ACTIVO BOTÓN PARA CAMBIAR DE LEÍDO A NO LEÍDO
+    if(elementClass.includes("leido")){
+
+        let btnTexto = e.target;
+        console.log(btnTexto);
+
+        if (!btnTexto.classList.contains('noLeido')){
+            btnTexto.value == "No leído";
+            btnTexto.classList.add("noLeido");
+        } else {
+            btnTexto.textContent == "Leído";
+            btnTexto.classList.remove("noLeido");
+        }
+    }
 })
 
 window.EventTarget
@@ -191,7 +242,7 @@ function nuevoFormulario(){
     window.onclick = function(event) {
         if (event.target == modal) {
             modal.style.display = "none";
-        }
+            }
         }    
 
     // SALIR CIERRA EL MODAL
@@ -199,4 +250,74 @@ function nuevoFormulario(){
     salir.onclick = function() {
         modal.style.display = "none";
     }
+
+    // GUARDAR DATOS
+
+    guardar.onclick = function() {
+        if (agregarLibro()){
+            modal.style.display = "none";
+        }
+    }
+
+
 }
+
+////// FUNCION AGREGAR LIBRO //////
+
+function agregarLibro(){
+    
+    let valido = 0;
+
+    let titulo = document.getElementById("titulo");
+    if (!titulo.value || titulo.value.trim() == ""){
+        titulo.classList.add("invalido");
+        valido ++;
+    } else {
+        titulo.classList.remove("invalido");
+    }
+    let autor = document.getElementById("autor");
+    if (!autor.value || autor.value.trim() == ""){
+        autor.classList.add("invalido");
+        valido ++;
+    } else {
+        autor.classList.remove("invalido");
+    }   
+    let catPags = document.getElementById("catPags");
+    let num = parseInt(catPags.value);    
+    if (isNaN(num)){
+        catPags.classList.add("invalido");
+        valido ++;
+    } else {
+        catPags.classList.remove("invalido");
+    }
+    let leido = document.getElementById("leido").checked;
+
+    id++;
+    const libro = new Libro(titulo.value.trim(), autor.value.trim(), catPags.value, leido.value);
+    miLibreria.push(libro); 
+    console.log(miLibreria);
+
+    if (valido > 0){
+        return false;
+    } else {
+    crearCard();
+    titulo.value = "";
+    autor.value= "";
+    catPags.value = "";
+    leido.checked = false;
+    return true;
+    }
+}
+
+// esto no lo vamos a usar, pero lo dejo acá para recordarlo jj
+// ////// AGREGAR FUNCION A PROTOTIPO DE LIBRO //////
+
+// Libro.prototype.info = function(){
+//     let leidoTxt = ""     
+
+//     if (this.leido){
+//         leidoTxt = "Lo has leído"
+//     } else {leidoTxt = "No lo has leído"}
+
+//     return( `${this.titulo}, escrito por ${this.autor}, tiene ${this.cantPags} páginas. ${leidoTxt}.`);
+// } 
