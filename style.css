@@ -169,7 +169,7 @@ button.add{
     display: flex;
     flex-direction: column;
     background-color: #fefefe;
-    margin: 15vh auto; 
+    margin: 12vh auto; 
     padding: 5px 10px 35px 10px;
     border-radius: 10px;
     width: 15vw;
@@ -185,7 +185,7 @@ button.add{
     gap: 20px;
     flex-direction: column;
     background-color: #fefefe;
-    margin: 15vh auto; 
+    margin: 12vh auto; 
     padding: 30px;
     border-radius: 10px;
     width: 15vw;

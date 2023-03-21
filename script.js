@@ -84,6 +84,46 @@ function crearCards(){
 
 crearCards();
 
+////// ACCIONES ON  CLICK //////
+
+window.addEventListener("click", function(e){
+    
+    // CONSIGO ID DE LA CARD Y CLASS DEL OBJEETO TARGER
+    let elementId = e.target.parentNode["id"];
+    let elementClass = e.target.className;
+
+    if (!elementId){
+        elementId = e.target.parentNode.parentNode["id"];
+    }
+    
+    // ACTIVO BOTÓN BORRAR
+    if (elementClass.includes("del")){
+        console.log("ACA SE BORRA", elementId);
+        borrar(elementId);
+    };
+
+    //ACTIVO BOTÓN PARA AGREGAR
+    if (elementClass.includes("add")){
+        nuevoFormulario();
+    };
+
+    // ACTIVO BOTÓN PARA CAMBIAR DE LEÍDO A NO LEÍDO
+    if(elementClass.includes("leido")){
+
+        let btnTexto = e.target;
+
+        if (!btnTexto.classList.contains('noLeido')){
+            btnTexto.textContent = "No leído"
+            btnTexto.classList.add("noLeido");
+        } else {
+            btnTexto.textContent == "Leído";
+            btnTexto.textContent = "Leído"
+            btnTexto.classList.remove("noLeido");
+        }
+    }
+})
+
+
 // CREAR CARD NUEVA //
 
 function crearCard(){
@@ -140,53 +180,14 @@ function crearCard(){
     id++;
 }
 
-////// ACCIONES ON  CLICK //////
-
-window.addEventListener("click", function(e){
-    
-    // CONSIGO ID DE LA CARD Y CLASS DEL OBJEETO TARGER
-    let elementId = e.target.parentNode["id"];
-    let elementClass = e.target.className;
-
-    if (!elementId){
-        elementId = e.target.parentNode.parentNode["id"];
-    }
-    
-    // ACTIVO BOTÓN BORRAR
-    if (elementClass.includes("del")){
-        borrar(elementId);
-    };
-
-    //ACTIVO BOTÓN PARA AGREGAR
-    if (elementClass.includes("add")){
-        nuevoFormulario();
-    };
-
-    // ACTIVO BOTÓN PARA CAMBIAR DE LEÍDO A NO LEÍDO
-    if(elementClass.includes("leido")){
-
-        let btnTexto = e.target;
-        console.log(btnTexto);
-
-        if (!btnTexto.classList.contains('noLeido')){
-            btnTexto.value == "No leído";
-            btnTexto.classList.add("noLeido");
-        } else {
-            btnTexto.textContent == "Leído";
-            btnTexto.classList.remove("noLeido");
-        }
-    }
-})
-
-window.EventTarget
-
 ////// FUNCION PARA BORRAR //////
 
 function borrar(id){
 
     //CREO LAS CARDS
-    let card = document.querySelectorAll(".card");
-
+    let card = document.getElementById(id);
+    console.log(card);
+    console.log(id);
     // PRIMERO VIENE CON ADVERTENCIA EN UN MODAL
     let modal = document.getElementById("advertencia");
 
@@ -219,7 +220,7 @@ function borrar(id){
     // CLICKEAR SI BORRA EL CARD, SE ELIMINA EL OBJETO DEL ARRAY Y CIERRA EL MODAL
     si.onclick = function(){
         miLibreria.splice(id, 1);
-        card[id].remove();
+        card.remove();
         modal.style.display = "none";
     }
 }
@@ -241,6 +242,7 @@ function nuevoFormulario(){
     // CLIKCEAR AFUERA DEL MODAL CIERRA EL MODAL
     window.onclick = function(event) {
         if (event.target == modal) {
+            resetInput();
             modal.style.display = "none";
             }
         }    
@@ -248,6 +250,7 @@ function nuevoFormulario(){
     // SALIR CIERRA EL MODAL
 
     salir.onclick = function() {
+        resetInput();
         modal.style.display = "none";
     }
 
@@ -293,7 +296,7 @@ function agregarLibro(){
     let leido = document.getElementById("leido").checked;
 
     id++;
-    const libro = new Libro(titulo.value.trim(), autor.value.trim(), catPags.value, leido.value);
+    const libro = new Libro(titulo.value.trim(), autor.value.trim(), catPags.value, leido);
     miLibreria.push(libro); 
     console.log(miLibreria);
 
@@ -301,12 +304,23 @@ function agregarLibro(){
         return false;
     } else {
     crearCard();
-    titulo.value = "";
-    autor.value= "";
-    catPags.value = "";
-    leido.checked = false;
+    resetInput();
     return true;
     }
+}
+
+// RESETAR INPUTS
+
+function resetInput(){
+    let titulo = document.getElementById("titulo");
+    let autor = document.getElementById("autor");
+    let catPags = document.getElementById("catPags");
+    let leido = document.getElementById("leido");
+
+    titulo.value = "";
+    autor.value = "";
+    catPags.value = "";
+    leido.checked = false;
 }
 
 // esto no lo vamos a usar, pero lo dejo acá para recordarlo jj
