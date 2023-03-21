@@ -70,10 +70,10 @@ function crearCards(){
         imgDel.classList.add("icono", "del"); // le agrego clase
         imgDel.src = "imagenes/del.png"; // le agrego el src
         acciones.appendChild(imgDel); // apend al div d eacciones
-        const imgEdit = document.createElement("img");
-        imgEdit.classList.add("icono", "edit"); // le agrego clase
-        imgEdit.src = "imagenes/edit.png"; // le agrego el src
-        acciones.appendChild(imgEdit); // append al div de acciones
+//        const imgEdit = document.createElement("img");
+//        imgEdit.classList.add("icono", "edit"); // le agrego clase
+//        imgEdit.src = "imagenes/edit.png"; // le agrego el src
+//        acciones.appendChild(imgEdit); // append al div de acciones
         card.appendChild(acciones); // append el div de accioens a new card
 
         // agrego la card al contendor
@@ -98,7 +98,6 @@ window.addEventListener("click", function(e){
     
     // ACTIVO BOTÓN BORRAR
     if (elementClass.includes("del")){
-        console.log("ACA SE BORRA", elementId);
         borrar(elementId);
     };
 
@@ -120,6 +119,11 @@ window.addEventListener("click", function(e){
             btnTexto.textContent = "Leído"
             btnTexto.classList.remove("noLeido");
         }
+    }
+
+    // ACTIVO BOTÓN PARA EDITAR
+    if(elementClass.includes("edit")){
+        editar(elementId);
     }
 })
 
@@ -186,8 +190,6 @@ function borrar(id){
 
     //CREO LAS CARDS
     let card = document.getElementById(id);
-    console.log(card);
-    console.log(id);
     // PRIMERO VIENE CON ADVERTENCIA EN UN MODAL
     let modal = document.getElementById("advertencia");
 
@@ -261,8 +263,6 @@ function nuevoFormulario(){
             modal.style.display = "none";
         }
     }
-
-
 }
 
 ////// FUNCION AGREGAR LIBRO //////
@@ -298,7 +298,6 @@ function agregarLibro(){
     id++;
     const libro = new Libro(titulo.value.trim(), autor.value.trim(), catPags.value, leido);
     miLibreria.push(libro); 
-    console.log(miLibreria);
 
     if (valido > 0){
         return false;
